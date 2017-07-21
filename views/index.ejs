@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+   
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    
+  </head>
+  <body>
+  <script
+    src="https://code.jquery.com/jquery-1.12.4.min.js"
+    integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+    crossorigin="anonymous">
+    
+  </script>
+
+  <div id="headline">
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+  </div>
+
+  <div id="navbar">
+             
+         <ul id="menu">
+             <li><a href="index">Home</a></li>
+             <li><a href="index">All Products</a></li>
+             <li><a href="user/profile">My Account</a></li>
+             <li><a href="user/signup">Sign Up</a></li>
+            
+         </ul>
+             
+          <div id="form_login">
+             <form action="user/signin" method="POST">
+                 <input type="text" name="user_id" placeholder="email_id" id="example1">
+                 <input type="password" name="password" placeholder="password" id="example1">
+                 <input type="submit" value="login">
+                 
+             </form>
+         </div>
+             
+  </div>
+
+   <% products.forEach(function(item){ %>
+   <div id="center_content">
+          
+       <div class="product_box">
+         
+                            
+        <div id='single_product'> 
+             <h3><%=item.name %> </h3>
+             <img src="http://localhost:3000/images/<%=item.imagePath%>" width="200" height="200" alt="My Pic" /><br>
+              <p><b>Price:<%=item.price%> $</b></p>   
+             <a href='details.js?pro_id=<%=item._id %>' style='float:left';>Details</a>    
+             <a href='index.php?add_cart=<%=item._id %>'><button style='float:right;'>Add to cart</button></a>
+              
+                
+         </div> 
+            
+  
+       </div>
+  </div>
+  <% }) ;%>
+  
+    
+  
+  </body>
+</html>

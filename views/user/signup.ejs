@@ -1,0 +1,41 @@
+<div class="row">
+	<div class="col">
+		<h1> Sign Up</h1>
+		<% if(errors){%>
+			<ul>
+			<% errors.forEach(function(error){ %>
+				<li><%=error.msg %> </li>
+			<% }) ;%>
+			</ul>
+		<%} %>
+		
+		<form method="POST" action= "/user/signup">
+		<div>
+			<label for="name">Full Name</label>
+			<input type="text" id="name" name="name" </input>
+		</div>
+		<div>
+			<label for="type">type</label>
+			<input type="text" id="type" name="type"  </input>
+		</div>
+		<div>
+			<label for="email">Email</label>
+			<input type="text" id="email" name="email" </input>
+		</div>
+		<div>
+			<label for="password">Password</label>
+			<input type="password" id="password" name="password" </input>
+		</div>
+		<div>
+			<label for="confirm_password">ConfirmPassword</label>
+			<input type="password" id="confirm_password" name="confirm_password" </input>
+		<div>
+
+			<button type="submit">Sign Up </button>
+
+           
+
+		</form>
+	</div>
+</div>
+	

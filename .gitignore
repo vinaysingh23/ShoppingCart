@@ -1,0 +1,4 @@
+/public/storage
+.env
+*.exe
+node_modules

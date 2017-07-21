@@ -1,0 +1,128 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+
+/*html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers 
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+    /*background: #f3edbf;
+
+
+}*/
+.main_wrapper {
+    width: 1450px;
+    height: auto;
+    margin: auto;//centered align
+   /* background: #b8c0ff;*/
+}
+
+.header_wrapper {
+    width: auto;
+    height:70px;
+   /* background: #b8ffe5;*/
+    padding: 0;
+}
+
+
+#navbar {
+    width: auto;
+    height: 50px;
+   background: #808080;
+
+    
+}
+#menu {
+    padding: 0;
+    line-height: 36px;
+    margin-top: 5px;
+    float: left;
+}
+#menu li{
+    list-style: none;
+    display: inline;
+}
+#menu a{
+   
+    text-decoration: none;
+    font-size: 18px;
+    margin: 5px;
+    padding: 8px;
+}
+#menu a:hover {
+    text-decoration: underline;
+    color: #333;
+    font-weight: bold;
+}
+#form_search {
+    float: right;
+    line-height: 0px;
+    padding-right: 8px;
+    padding-top: 0;
+}
+#form_login {
+    float: right;
+    line-height: 10px;
+    padding-right:0;
+    color:  #667500;
+    padding-top: 18px;
+    
+}
+
+.center_content{
+    width: auto;
+    height: auto;
+   
+    
+} 
+
+
+#headline {
+   color: #000000;height: auto;width: auto;
+}
+#headline_content {
+    float: right;margin: 10px;
+}
+.product_box {
+    width: 1180px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    
+   
+}
+#single_product{
+    float: left;padding: 15px;
+}
+#single_product img {
+    border: solid;
+}

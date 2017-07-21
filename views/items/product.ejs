@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<div class="row">
+	<div class="col">
+		<h1> Add Products</h1>
+		<% if(errors){%>
+			<ul>
+			<% errors.forEach(function(error){ %>
+				<li><%=error.msg %> </li>
+			<% }) ;%>
+			</ul>
+		<%} %>
+		
+		<form method="POST" enctype="multipart/form-data">
+		<div>
+			<label >Full Name</label>
+			<input type="text" id="name" name="name" ></input>
+		</div>
+		<div>
+			<label >description</label>
+			<input type="text" id="description" name="description"  ></input>
+		</div>
+		<div>
+			<label >Price</label>
+			<input type="Number" id="price" name="price"> </input>
+		</div>
+		<div>
+			<label >Quantity</label>
+			<input type="Number" id="quantity" name="quantity" ></input>
+		</div>
+		<div>
+        Image: <input type="file" id="image" name="image">
+		</div>
+		
+
+			<input type="submit" name="submit" value="submit">
+
+           
+
+		</form>
+	</div>
+</div>
+
+</html>
+	 
