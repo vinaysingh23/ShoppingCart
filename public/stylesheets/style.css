@@ -86,7 +86,7 @@ body {
     float: right;
     line-height: 0px;
     padding-right: 8px;
-    padding-top: 0;
+    padding-top: 8px;
 }
 #form_login {
     float: right;

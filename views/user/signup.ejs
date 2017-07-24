@@ -1,6 +1,13 @@
 <div class="row">
 	<div class="col">
 		<h1> Sign Up</h1>
+		<% if(hasErrors){%>
+			<ul>
+			<% messages.forEach(function(error){ %>
+				<li><%=error.messages %> </li>
+			<% }) ;%>
+			</ul>
+		<%} %>
 		<% if(errors){%>
 			<ul>
 			<% errors.forEach(function(error){ %>
@@ -30,7 +37,7 @@
 			<label for="confirm_password">ConfirmPassword</label>
 			<input type="password" id="confirm_password" name="confirm_password" </input>
 		<div>
-
+			<input type="hidden" name="_csrf" value="<%= csrfToken %>">
 			<button type="submit">Sign Up </button>
 
            

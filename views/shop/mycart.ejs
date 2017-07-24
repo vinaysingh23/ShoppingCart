@@ -1,0 +1,50 @@
+ <% if(products){ %> 
+
+
+<% products.forEach(function(item){ %>
+  <div id="center_content">
+          
+       <div style= 'padding-left: 8px'>
+                           
+            <b style= 'padding-left: 20px'>Quantity:<%=item.qty%> </b>
+            <b style= 'padding-left: 20px'>Price:<%=item.price%> </b>  
+            <a href="#" style= 'padding-left: 20px'>Reduce by 1 </a> 
+            <a href="#" style= 'padding-left: 20px'>Remove item </a> 
+          
+
+        </div> 
+            
+  
+  </div>
+  <% }); %>
+
+  <div>
+    <div> 
+        <strong>Total: <%=totalPrice%> </strong>
+    </div>
+
+  </div>
+  <div>
+    <div> 
+        <a href="/shop/checkout" type="button">checkout</a>
+    </div>
+
+  </div>
+
+  <% } else { %>
+  <h1>No item on cart<h1>
+  <%}%>
+  
+          
+     
+           
+                     
+                          
+                                
+
+
+                       
+         
+    
+ 
+  

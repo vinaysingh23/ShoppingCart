@@ -1,0 +1,39 @@
+<div class="row">
+	<div class="col">
+		<h1> Checkout</h1>
+		<h3><b>TotalPrice:<%=totalPrice%></b></h3>
+		
+		<form method="POST" action= "/shop/checkout">
+		<div>
+			<label for="name">Full Name</label>
+			<input type="text" id="name" name="name" >
+		</div>
+		<div>
+			<label >Address</label>
+			<input type="text" id="address" name="address"  >
+		</div>
+		<div>
+			<label >Phone Number</label>
+			<input type="text" id="phoneNumber" name="phoneNumber"  >
+		</div>
+		<div>
+			<label >Card Name</label>
+			<input type="text" id="cardName" name="cardName" >
+		</div>
+		<div>
+			<label >Card Number</label>
+			<input type="text" id="cardNumber" name="cardNumber" >
+		</div>
+		<div>
+			<label >CVC</label>
+			<input type="text" id="cvc" name="cvc" >
+		<div>
+			
+			<a href="/" type="button">Order Now </a>
+
+           
+
+		</form>
+	</div>
+</div>
+	

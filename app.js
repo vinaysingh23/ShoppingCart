@@ -10,12 +10,12 @@ var passport = require('passport');
 var flash = require('connect-flash');
 var FormData = require('form-data');
 var fs = require('fs');
+var MongoStore = require('connect-mongo')(session);  
 /*var multer  = require('multer');
 var upload = multer({ dest: 'public/images/' });*/
 var multipart = require('connect-multiparty');
 
 var User = require('./models/user.js');
-var UserValidate = require('./models/uservalidate');
 var Product = require('./models/product.js')
 var expressValidator = require('express-validator');
 
@@ -30,6 +30,7 @@ var app = express();
 app.use( multipart() );
 
 mongoose.connect('mongodb://localhost/shoppingCart'); 
+require('./config/passport');
   //useMongoClient: true,
   // other options *
 
@@ -43,16 +44,24 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({secret: 'mysupersecret', resave: false,  saveUninitialized: false}));
+app.use(session({
+	secret: 'mysupersecret', 
+	resave: false, 
+	saveUninitialized: false,
+	store: new MongoStore({mongooseConnection: mongoose.connection}),
+	cookie: { maxAge: 80 * 60 * 1000}
+}));
 app.use(flash());
-/*app.use(passport.initialize());
-app.use(passport.session());*/
+app.use(passport.initialize());
+app.use(passport.session()); 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(__dirname + '/public'));
 
 
 app.use(function(req, res, next){
 	res.locals.errors = null;
+	res.locals.login = req.isAuthenticated();
+	res.locals.session = req.session;
 	next();
 
 });
@@ -74,21 +83,10 @@ app.use(expressValidator({
   }
 }));
 
+app.use('/user', users);
 app.use('/', index);
-app.use('/users', users);
-/*app.get('/user/signin', function(req, res, next){
-	res.render('user/signin');
-	next();
 
-});*/
 
-Product.find({}, function(err, product) {
-  		if (err) throw err;
-
-     	
-  
-  		console.log(product);
-	});
 app.get('/', function(req,res,next){
 
 	Product.find({}, function(err, product) {
@@ -150,97 +148,5 @@ app.post('/items/product', function(req, res, next){
 	//console.log(newUser);
 });
 
-
-app.post('/user/signup', function(req, res, next){
-//console.log("idjfk");
-	req.checkBody('name', ' Name is Required').notEmpty();
-	req.checkBody('type', 'Type is Required').notEmpty();
-	req.checkBody('email', 'Email is Required').notEmpty();
-	req.checkBody('password', 'password is Required').notEmpty();
-	req.checkBody('confirm_password', 'Confirm Password is Required').equals(req.body.password);
-
-	var errors = req.validationErrors();
-
-	if(errors){
-		res.render('user/signup', {
-		
-			errors: errors  
-		});
-		
-	}else {
-		var newUser = new User({
-			name: req.body.name,
-			type: req.body.type,
-			email: req.body.email,
-			password: req.body.password
-		});
-		console.log(newUser);
-
-		newUser.save(function(err, result) {
-  			if (err){
-  				console.log(err);
-  			}
-
-  			console.log('User saved successfully!');
-  			res.send('success');
-
-		});
-		
-	}
-
-
-	//console.log(newUser);
-});
-
-
-app.post('/user/signin', function(req, res){
-
-	req.checkBody('email', 'Email is Required').notEmpty();
-	req.checkBody('password', 'password is Required').notEmpty();
-	
-
-	var errors = req.validationErrors();
-
-	if(errors){
-		res.render('user/signin', {
-		
-			//users: users,
-			errors: errors  
-		});
-		//console.log("ERROR");
-
-	}else {
-		
-			/*var emailid= req.body.email,
-			var passworda= req.body.password*/
-	
-		console.log("SUCESS");
-		
-  			res.redirect('/');
-
-		
-
-	}
-
-	//console.log(newUser);
-});
-
-// catch 404 and forward to error handler
-/*app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-*/
-// error handler
-/*app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});*/
 
 module.exports = app;
