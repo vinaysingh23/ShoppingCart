@@ -1,14 +1,44 @@
 var express = require('express');
 var router = express.Router();
 var passport= require('passport');
-
+var Order = require('../models/orders');
+var User = require('../models/user');
+var Cart = require('../models/cart');
+var Product = require('../models/product');
 var csrf = require('csurf');
 
 var csrfProtection = csrf();
 router.use(csrfProtection);
 
 router.get('/profile', isLoggedIn, function(req, res, next) {
-  res.redirect('/user/profile');
+
+	var user = req.user;
+	var user_type;
+	User.findOne({_id: user}, function(req, next){
+	var type = user.type;
+	
+	if(type === 'user'){
+
+		Order.find({user: user}, function(req, orders){
+			
+			orders.forEach(function(order){
+				cart = new Cart(order.cart);
+				order.items = cart.generateArr();
+
+			});
+			console.log(orders);
+			res.render('user/profile', { orders: orders, type: type});
+
+		});
+	}else{
+		Product.find({user: user}, function(req, products){
+			res.render('user/profile', {products: products , type: type})
+		});
+	}
+
+	});
+	
+
   // body...
 });
 router.get('/logout', isLoggedIn, function (req,res,next) {
@@ -29,7 +59,7 @@ router.get('/signup', function(req, res, next){
 router.post('/signup', passport.authenticate('local.signup', {
 	failureRedirect: '/user/signup',
 	failureFlash: true
-}), function(){
+}), function(req, res){
 	if(req.session.oldUrl){
 		var old = req.session.oldUrl;
 		req.session.oldUrl = null;
@@ -43,13 +73,13 @@ router.post('/signup', passport.authenticate('local.signup', {
 
 router.get('/signin', function(req, res, next){
 	var messages = req.flash('error');
-	res.render('user/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length >0});
+	res.render('user/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length > 0});
 });
 
 router.post('/signin', passport.authenticate('local.signin',  {
-  failureRedirect: '/user/signin ',
-  failureFlash: true
-}), function(){
+	failureRedirect: '/user/signin ',
+	failureFlash: true
+}), function(req, res){
 	if(req.session.oldUrl){
 		res.redirect(req.session.oldUrl);
 		req.session.oldUrl = null;

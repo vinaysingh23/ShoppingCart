@@ -19,6 +19,7 @@
     "express-session": "^1.15.4",
     "express-validator": "^3.2.1",
     "form-data": "^2.2.0",
+    "locus": "^2.0.1",
     "mongoose": "^4.11.3",
     "morgan": "~1.8.1",
     "multer": "^1.3.0",

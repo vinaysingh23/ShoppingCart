@@ -15,8 +15,8 @@ var MongoStore = require('connect-mongo')(session);
 var upload = multer({ dest: 'public/images/' });*/
 var multipart = require('connect-multiparty');
 
-var User = require('./models/user.js');
-var Product = require('./models/product.js')
+var User = require('./models/user');
+var Product = require('./models/product')
 var expressValidator = require('express-validator');
 
 
@@ -62,6 +62,7 @@ app.use(function(req, res, next){
 	res.locals.errors = null;
 	res.locals.login = req.isAuthenticated();
 	res.locals.session = req.session;
+	res.locals.user_type = null;
 	next();
 
 });
@@ -86,21 +87,46 @@ app.use(expressValidator({
 app.use('/user', users);
 app.use('/', index);
 
+/*Product.find({}, function(err, product) {
+  		if (err) throw err;
+
+     	
+  		console.log(product);
+});
+*/
 
 app.get('/', function(req,res,next){
 
-	Product.find({}, function(err, product) {
+	if(req.query.search){
+		console.log(req.query.search);
+
+    Product.find({category: req.query.search}, function(err, products){
+
+    	if(err) throw err;
+
+		res.render('index', {
+			title: 'Shopping cart',
+			products: products
+		});
+		console.log(products);
+
+    });
+
+  }else{
+
+	Product.find({}, function(err, products) {
   		if (err) throw err;
 
      	res.render('index', {
 	     	 title: 'Shopping Cart',
-	     	 products: product
+	     	 products: products
      	  });
   
-  		//console.log(product);
-	});
+			console.log(products);
+		});
+	}
 
-})
+});
 app.post('/items/product', function(req, res, next){
 
 	req.checkBody('name', 'name is Required').notEmpty();

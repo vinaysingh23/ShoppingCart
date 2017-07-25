@@ -1,4 +1,6 @@
-<div class="row">
+<!DOCTYPE html>
+<html>
+<div align="center">
 	<div class="col">
 		<h1> Sign In</h1>
 		<% if(hasErrors){%>
@@ -8,21 +10,32 @@
 			<% }) ;%>
 			</ul>
 		<%} %>
+		<hr>
 		<form action="signin" method="post">
 			
-			<label for="email">Email</label>
+			<label for="email">Email</label><br>
 			<input type="text" id="email" name="email" </input>
 			<br>
-			<label for="password">Password</label>
+			<label for="password">Password</label><br>
 			<input type="password" id="password" name="password" </input>
 			<br>
 
 			<br>
+			<input type="hidden" name="_csrf" value="<%= csrfToken %>"><br>
 			<button type="submit">Sign In </button>
 
 
 
 		</form>
 		<p>Not having Account? <a href="/user/signup" type="button">signup first </a></p>
+
+
+
+
+           
+
+		</form>
 	</div>
 </div>
+
+</html>

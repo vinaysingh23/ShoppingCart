@@ -3,7 +3,7 @@
 		<h1> Checkout</h1>
 		<h3><b>TotalPrice:<%=totalPrice%></b></h3>
 		
-		<form method="POST" action= "/shop/checkout">
+		<form method="POST" action= "checkout">
 		<div>
 			<label for="name">Full Name</label>
 			<input type="text" id="name" name="name" >
@@ -29,7 +29,7 @@
 			<input type="text" id="cvc" name="cvc" >
 		<div>
 			
-			<a href="/" type="button">Order Now </a>
+			<input type="submit", name="submit", value="order now">
 
            
 

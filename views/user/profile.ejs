@@ -1,7 +1,47 @@
-<div class="row">
+<!DOCTYPE html>
+<html>
+<div align="center">
 	<div class="col">
 		<h1>Your Profile </h1>
+		<hr>
+		<h2>Your Orders</h2>
+
+			<% if(type==='user') {%>
+				<%if(orders) {%>
+					<% orders.forEach(function(order){ %>
+					   <% order.items.forEach(function(item){ %>
+					   		<div>
+					   			<ul>name: <%=item.item.name %></ul>
+					   			<ul>Totalprice: <%=item.price %></ul>
+					   			<ul>Quantity: <%=item.qty %></ul>
+					   			
+					   		</div>
+					   <% }); %>
+					   		<div>
+					   			<ul>TotalOrderPrice: <%=order.cart.totalPrice %></ul>
+					   		</div>
+					   		<hr>
+					<% }); %>
+
+					
+				<%}else {%>
+				<h3> No Order Found</h3>
+				<%}%>
+			<%} else {%>
+					<h3>Welcome seller!!!</h3>
+					<p>wants to add more products ?<a href="/item/product" type="button">Add Products </a></p>
+			<% } %>
 
 
+		</form>
 	</div>
 </div>
+
+</html>
+
+
+
+
+
+		
+           

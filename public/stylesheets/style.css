@@ -113,15 +113,16 @@ body {
 }
 .product_box {
     width: 1180px;
-    padding: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
     text-align: center;
+    margin: 10px;
     
    
 }
 #single_product{
     float: left;padding: 15px;
+    border: solid;
 }
 #single_product img {
     border: solid;

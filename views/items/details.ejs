@@ -1,0 +1,63 @@
+ <!DOCTYPE html>
+<html>
+  <head>
+    <title>Details view</title>
+   
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    
+  </head>
+  <body>
+  <script
+    src="https://code.jquery.com/jquery-1.12.4.min.js"
+    integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+    crossorigin="anonymous">
+    
+  </script>
+
+  <div id="headline">
+    <h1>Shopping Cart</h1>
+    <p>Welcome to Shopping cart !!!</p>
+  </div>
+
+  <div id="navbar">
+             
+         <ul id="menu">
+             <li><a href="/">Home</a></li>
+             <li><a href="shop/mycart">mycart</a></li>
+            <% if(login ){ %>
+               <li><a href="user/profile">My Account</a></li>
+               <li><a href="user/logout">Logout</a></li>
+             <% }else{ %>
+               <li><a href="user/signup">Sign Up</a></li>
+               <li> <a href="user/signin">Login</a></li>
+             
+         </ul>
+            <% } %>
+             
+
+         
+             
+  </div>
+
+   <% products.forEach(function(item){ %>
+   <div class="center_content" align="center" >
+          
+       <div class="product_box">
+         
+                            
+        <div id='single_product'> 
+              <h3><%=item.name %> </h3>
+              <img src="http://localhost:3000/images/<%=item.imagePath%>" width="200" height="200" alt="My Pic" /><br>
+              <p><b>Price:<%=item.price%> Rs</b></p> 
+              <p><b>Quantity Available:<%=item.qty%></b></p>   
+              <p><%=item.description%></p>   
+              <a href='/add-to-cart/<%=item._id %>'><button style='float:right;'>Add to cart</button></a>
+              
+                
+         </div> 
+            
+  
+       </div>
+  </div>
+  <% }) ;%>
+  
