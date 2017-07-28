@@ -27,31 +27,31 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers 
+}*/
+ HTML5 display-role reset for older browsers 
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
 	display: block;
-}
+}/*
 body {
-    /*background: #f3edbf;
+    background: #f3edbf;
 
 
-}*/
+}*//*
 .main_wrapper {
     width: 1450px;
     height: auto;
     margin: auto;//centered align
-   /* background: #b8c0ff;*/
+    background: #b8c0ff;
 }
 
 .header_wrapper {
     width: auto;
     height:70px;
-   /* background: #b8ffe5;*/
+    background: #b8ffe5;
     padding: 0;
 }
-
+*/
 
 #navbar {
     width: auto;
@@ -103,16 +103,19 @@ body {
    
     
 } 
-
+.table{
+    border: solid;
+    text-align: center;
+}
 
 #headline {
-   color: #000000;height: auto;width: auto;
+   color: #000000;height: auto;width: auto;margin-top: 10px;
 }
 #headline_content {
     float: right;margin: 10px;
 }
 .product_box {
-    width: 1180px;
+    width: auto;
     margin-top: 10px;
     margin-bottom: 10px;
     text-align: center;
@@ -123,6 +126,7 @@ body {
 #single_product{
     float: left;padding: 15px;
     border: solid;
+     margin: 2px;
 }
 #single_product img {
     border: solid;

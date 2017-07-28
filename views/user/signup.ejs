@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
-<div align="center">
-	<div class="col">
+<div align="center" >
+	<div align="center">
 		<h1> Sign Up</h1>
 		<% if(hasErrors){%>
 			<ul>
 			<% messages.forEach(function(error){ %>
-				<li><%=error.messages %> </li>
+				<li><%=error %> </li>
 			<% }) ;%>
 			</ul>
 		<%} %>
-		<% if(errors){%>
+		<!-- <% if(errors){%>
 			<ul>
 			<% errors.forEach(function(error){ %>
 				<li><%=error.msg %> </li>
 			<% }) ;%>
 			</ul>
-		<%} %>
+		<%} %> -->
 		
 		<form method="POST" action= "/user/signup">
 		<div>

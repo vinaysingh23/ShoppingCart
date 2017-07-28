@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var Schema = new Schema({
+var Schema1 = new Schema({
 	user: {type: Schema.Types.ObjectId, ref: 'User'},
 	cart: {type: Object },
 	address: {type:String },
@@ -14,5 +14,5 @@ var Schema = new Schema({
 });
 
 
-var Order = mongoose.model('Order', Schema)
+var Order = mongoose.model('Order', Schema1);
 module.exports = Order;

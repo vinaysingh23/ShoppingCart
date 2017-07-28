@@ -1,7 +1,7 @@
  <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title>Shopping Cart</title>
    
     <link rel='stylesheet' href='/stylesheets/style.css' />
     
@@ -15,8 +15,8 @@
   </script>
 
   <div id="headline">
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <h1>Shopping Cart</h1>
+    <p>Welcome to Shopping Cart</p>
   </div>
 
   <div id="navbar">
@@ -35,18 +35,86 @@
         <% } %>
              
         <div id="form_search">
-           <form action="/" method="GET">
-               <input type="text" name="search" placeholder="search" >
+           <form class="searchProduct"  method="GET">
+               <input type="text" id="title" name="search" placeholder="search" >
             
-               <input type="submit" value="search by catagory">
+               <input type="submit" id="submit" value="search by name">
               
            </form>
+          
+          
+          <script src="jquery-3.2.1.min.js"></script>
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+          
+          <script >
+          $(function(){       
+                $('#submit').click(function(e){
+                    e.preventDefault();
+                    console.log('select_link clicked');
+                    
+                    
+                    var data = {};
+                    data.title = $('#title').val();
+
+      
+
+                     $.ajax({
+                          url: document.URL+"searchProduct/",
+                            
+                          type: "GET",
+                          data: data, 
+                          dataType: "HTML",
+                    
+                          success: function (response) {
+                            
+                         
+                          //console.log(response);
+                          //alert(response);
+                          
+                            selectedProduct(response);
+
+                          },
+                          error: function (xhr, status) {
+                           
+                            console.log("Sorry, there was a problem!");
+                          },
+
+                          complete: function (xhr, status) {   
+
+                           console.log("The request is complete!");
+                          }
+
+                     })
+
+
+
+                   /* $.get('/searchProduct', data, function(err,docs) {
+                      console.log("jos");
+                      //res.render('/',products: docs);
+                      selectedProduct(docs);
+                      //var products = JSON.stringify(docs);
+                  
+
+                    })*/
+         
+                       });       
+        });
+
+        var selectedProduct = function(products){
+          var div = document.getElementById('product');
+        
+          div.innerHTML = products;
+        
+        }
+
+        </script>
         </div>
          
              
-  </div>
+  </div >
+  <div id="product">
 
-   <% products.forEach(function(item){ %>
+   <% products.forEach(function(products){ %>
    <div id="center_content">
           
        <div class="product_box">
@@ -54,16 +122,18 @@
                             
         <div id='single_product'> 
 
-              <h3><%=item.name %> </h3>
+              <h3><%=products.name %> </h3>
         
-              <img src="http://localhost:3000/images/<%=item.imagePath%>" width="200" height="200" alt="My Pic" /><br>
+              <img src="<%=products.imagePath%>" width="200" height="200" alt="My Pic" /><br>
 
-               <p><b>Price:<%=item.price%> Rs</b></p> 
-               <p><b>Quantity Available:<%=item.qty%></b></p> 
-               
-
-              <a href='/items/details/<%=item._id %>' style='float:left';>Details</a>    
-              <a href='/add-to-cart/<%=item._id %>'><button style='float:right;'>Add to cart</button></a>
+              <p><b>Price:<%=products.price%> Rs</b></p> 
+              <%if(products.qty > 0) {%>
+              <p><b>Quantity Available:<%=products.qty%></b></p> 
+              <a href='/items/details/<%=products._id %>' style='float:left';>Details</a>    
+              <a href='/add-to-cart/<%=products._id %>'><button style='float:right;'>Add to cart</button></a>
+              <%} else {%>
+              <ul>Currently Not available!!<br>Coming soon...</ul>
+              <%}%>
               
                 
         </div> 
@@ -72,8 +142,9 @@
       </div>
   </div>
   <% }) ;%>
+  </div>
   
-    
+  
   
   </body>
 </html>

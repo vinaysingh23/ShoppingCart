@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<div align="center">
+	<div class="col">
+	<%product.forEach(function(product){ %>
+		<h1> Edit Products For: <%=product.name %></h1>
+		<p>Current Details:</p>
+	
+		<ul>price:<%=product.price %></ul>
+		<ul>remaining Quantity:<%=product.qty %></ul>
+		
+		<hr>
+		<form  method="POST" >
+		<div>
+		
+		<div>
+			<input type="hidden" name="id" value="<%=product._id%>"><br>
+		</div>
+
+		<div>
+			<label >Price</label><br>
+			<input type="Number" id="price" name="price"> </input>
+		</div>
+
+		<div>
+			<label >Quantity</label><br>
+			<input type="Number" id="qty" name="qty" ></input>
+		</div>
+
+		
+			<br>
+			<input type="submit"  value="submit">
+			<!-- <a href='index'><button >Go To Home</button></a> -->
+
+           
+
+		</form>
+	<% }); %>
+	</div>
+</div>
+
+</html>
+
+	

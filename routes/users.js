@@ -13,9 +13,12 @@ router.use(csrfProtection);
 router.get('/profile', isLoggedIn, function(req, res, next) {
 
 	var user = req.user;
-	var user_type;
+
+
+	console.log(user);
 	User.findOne({_id: user}, function(req, next){
 	var type = user.type;
+	var user_id = user.id;
 	
 	if(type === 'user'){
 
@@ -31,8 +34,9 @@ router.get('/profile', isLoggedIn, function(req, res, next) {
 
 		});
 	}else{
-		Product.find({user: user}, function(req, products){
-			res.render('user/profile', {products: products , type: type})
+		Product.find({seller_id: user_id}, function(req, products){
+			console.log(products);
+			res.render('user/profile', {products: products , type: type ,userDetails: user})
 		});
 	}
 
@@ -51,6 +55,7 @@ router.use('/', notLoggedIn, function(req, res, next){
 	next();
 } );
 /* GET users listing. */
+
 router.get('/signup', function(req, res, next){
   var messages = req.flash('error');
 	res.render('user/signup', {csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length >0});

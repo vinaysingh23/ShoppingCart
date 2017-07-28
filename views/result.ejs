@@ -1,73 +1,33 @@
- <!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-   
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    
-  </head>
-  <body>
-  <script
-    src="https://code.jquery.com/jquery-1.12.4.min.js"
-    integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-    crossorigin="anonymous">
-    
-  </script>
 
-  <div id="headline">
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </div>
+  <div id="product">
 
-  <div id="navbar">
-             
-         <ul id="menu">
-             <li><a href="/">Home</a></li>
-             <li><a href="shop/mycart">mycart</a></li>
-            <% if(login ){ %>
-               <li><a href="user/profile">My Account</a></li>
-               <li><a href="user/logout">Logout</a></li>
-             <% }else{ %>
-               <li><a href="user/signup">Sign Up</a></li>
-               <li> <a href="user/signin">Login</a></li>
-             
-         </ul>
-            <% } %>
-             
-          <div id="form_search">
-             <form action="result" method="POST">
-                 <input type="text" name="search" placeholder="search" >
-              
-                 <input type="submit" name="search" value="search">
-                
-             </form>
-         </div>
-         
-             
-  </div>
-
-   <% products.forEach(function(item){ %>
+   <% products.forEach(function(products){ %>
    <div id="center_content">
           
        <div class="product_box">
          
                             
         <div id='single_product'> 
-             <h3><%=item.name %> </h3>
-             <img src="http://localhost:3000/images/<%=item.imagePath%>" width="200" height="200" alt="My Pic" /><br>
-              <p><b>Price:<%=item.price%> $</b></p>   
-             <a href='items/details/<%=item._id %>' style='float:left';>Details</a>    
-             <a href='/add-to-cart/<%=item._id %>'><button style='float:right;'>Add to cart</button></a>
+
+              <h3><%=products.name %> </h3>
+        
+              <img src="<%=products.imagePath%>" width="200" height="200" alt="My Pic" /><br>
+
+              <p><b>Price:<%=products.price%> Rs</b></p> 
+              <%if(products.qty > 0) {%>
+              <p><b>Quantity Available:<%=products.qty%></b></p> 
+              <a href='/productss/details/<%=products._id %>' style='float:left';>Details</a>    
+              <a href='/add-to-cart/<%=products._id %>'><button style='float:right;'>Add to cart</button></a>
+              <%} else {%>
+              <ul>Currently Not available!!<br>Coming soon...</ul>
+              <%}%>
               
                 
-         </div> 
+        </div> 
             
   
-       </div>
+      </div>
   </div>
   <% }) ;%>
+  </div>
   
-    
-  
-  </body>
-</html>

@@ -2,15 +2,15 @@
 <html>
 <div align="center">
 	<div class="col">
-		<h1>Your Profile </h1>
+		<h1>Welcome <%=userDetails.name%> To Your Profile!!!</h1>
 		<hr>
-		<h2>Your Orders</h2>
-
 			<% if(type==='user') {%>
+			<h2>Your Orders</h2>
 				<%if(orders) {%>
 					<% orders.forEach(function(order){ %>
 					   <% order.items.forEach(function(item){ %>
-					   		<div>
+					   		<div id="single_box">
+
 					   			<ul>name: <%=item.item.name %></ul>
 					   			<ul>Totalprice: <%=item.price %></ul>
 					   			<ul>Quantity: <%=item.qty %></ul>
@@ -18,7 +18,9 @@
 					   		</div>
 					   <% }); %>
 					   		<div>
+
 					   			<ul>TotalOrderPrice: <%=order.cart.totalPrice %></ul>
+
 					   		</div>
 					   		<hr>
 					<% }); %>
@@ -28,8 +30,31 @@
 				<h3> No Order Found</h3>
 				<%}%>
 			<%} else {%>
-					<h3>Welcome seller!!!</h3>
-					<p>wants to add more products ?<a href="/item/product" type="button">Add Products </a></p>
+					<h3>Your Added Products!!!</h3>
+
+					<%if(products) {%> <hr>
+					<div class="product_box">
+
+						<% products.forEach(function(item){ %>
+							<div id="single_box">
+								<!-- <ul>Date:item.date</ul> -->
+					   			<ul>name: <%=item.name %></ul>
+					   			<ul>Price: <%=item.price %></ul>
+					   			<ul>Quantity: <%=item.qty %></ul>
+								<a href='/items/editProduct/<%=item._id %>' ><button>Edit Product</button></a>    
+								<a href='/RemoveProduct/<%=item._id %>'><button >Remove Product</button></a>
+					   			
+					   		</div>
+					   		<hr>
+						<% }); %>
+					<div>	
+
+					<%} else {%>
+
+					<%}%>
+					 
+
+					<p>wants to add more products ?<a href="/items/product" type="button">Add Products </a></p>
 			<% } %>
 
 

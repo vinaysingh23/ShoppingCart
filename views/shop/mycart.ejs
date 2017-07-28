@@ -1,4 +1,7 @@
- <% if(products){ %> 
+ <div align="center">
+ <h2>My Cart <h2>
+ <hr>
+ <% if(products && totalPrice > 0){ %> 
 
 
 <% products.forEach(function(item){ %>
@@ -8,8 +11,13 @@
             <b style= 'padding-left: 20px'>Name:<%=item.item.name%> </b>               
             <b style= 'padding-left: 20px'>Quantity:<%=item.qty%> </b>
             <b style= 'padding-left: 20px'>Price:<%=item.price%> </b>  
-            <a href="#" style= 'padding-left: 20px'>Reduce by 1 </a> 
-            <a href="#" style= 'padding-left: 20px'>Remove item </a> 
+            <a href="/reduceCart/<%=item.item._id%>" style= 'padding-left: 20px'><button>Reduce by 1</button></a> 
+            <a href="/removeFromCart/<%=item.item._id%>" style= 'padding-left: 20px'><button>Remove from Cart </button></a> 
+            <form action="/add_product_by_qty", method="GET">
+              Add Quantity:<input type="Number" name="qty" >
+              <input type="hidden" name="id" value="<%=item.item._id%>">
+              <input type="submit" name="submit">
+            </form>
           
 
         </div> 
@@ -17,6 +25,7 @@
   
   </div>
   <% }); %>
+  <hr>
 
   <div>
     <div> 
@@ -25,8 +34,9 @@
 
   </div>
   <div>
+  <br>
     <div> 
-        <a href="/shop/checkout" type="button">checkout</a>
+        <a href="/shop/checkout" ><button>checkout</button></a>
     </div>
 
   </div>
@@ -34,6 +44,7 @@
   <% } else { %>
   <h1>No item on cart<h1>
   <%}%>
+  </div>
   
           
      
