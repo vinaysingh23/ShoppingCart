@@ -30,7 +30,8 @@ router.get('/profile', isLoggedIn, function(req, res, next) {
 
 			});
 			console.log(orders);
-			res.render('user/profile', { orders: orders, type: type});
+			//console.log(user);
+			res.render('user/profile', { orders: orders, type: type, userDetails: user});
 
 		});
 	}else{
