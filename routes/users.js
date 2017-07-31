@@ -1,114 +1,136 @@
-var express = require('express');
-var router = express.Router();
-var passport= require('passport');
-var Order = require('../models/orders');
-var User = require('../models/user');
-var Cart = require('../models/cart');
-var Product = require('../models/product');
-var csrf = require('csurf');
+const express = require('express');
+const router = express.Router();
+const passport= require('passport');
+const Cart = require('../models/cart');
+const csrf = require('csurf');
+import {Product} from '../models/product';
+import {Order} from '../models/orders';
+import {User} from '../models/user';
 
-var csrfProtection = csrf();
+const csrfProtection = csrf();
 router.use(csrfProtection);
 
-router.get('/profile', isLoggedIn, function(req, res, next) {
+router.get('/user/profile', isLoggedIn, (req, res, next)=> {
 
-	var user = req.user;
-
-
-	console.log(user);
-	User.findOne({_id: user}, function(req, next){
-	var type = user.type;
-	var user_id = user.id;
+	let user = req.user;
 	
-	if(type === 'user'){
+	User.findOne({_id: user}, (req, next)=> {
 
-		Order.find({user: user}, function(req, orders){
+		let type = user.type;
+		let user_id = user.id;
+	
+		if(type === 'user'){
+
+			Order.find({user: user}, (req, orders)=>{
 			
-			orders.forEach(function(order){
-				cart = new Cart(order.cart);
-				order.items = cart.generateArr();
+				orders.forEach(function(order){
+
+					cart = new Cart(order.cart);
+					order.items = cart.generateArr();
+
+				});
+				//console.log(orders);
+				res.render('user/profile', { orders: orders, type: type, userDetails: user});
 
 			});
-			console.log(orders);
-			res.render('user/profile', { orders: orders, type: type});
+		}else{
 
-		});
-	}else{
-		Product.find({seller_id: user_id}, function(req, products){
-			console.log(products);
-			res.render('user/profile', {products: products , type: type ,userDetails: user})
-		});
-	}
+			Product.find({seller_id: user_id}, (req, products)=> {
+
+				//console.log(products);
+				res.render('user/profile', {products: products , type: type ,userDetails: user});
+
+			});
+		}
 
 	});
 	
 
-  // body...
+
 });
-router.get('/logout', isLoggedIn, function (req,res,next) {
+router.get('/user/logout', isLoggedIn, (req,res,next)=> {
+
 	req.logout();
 	res.redirect('/');
-	// body...
+	
 });
 
-router.use('/', notLoggedIn, function(req, res, next){
+router.use('/', notLoggedIn, (req, res, next)=>{
 	next();
 } );
-/* GET users listing. */
 
-router.get('/signup', function(req, res, next){
-  var messages = req.flash('error');
+
+router.get('/user/signup', (req, res, next)=>{
+
+  let messages = req.flash('error');
 	res.render('user/signup', {csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length >0});
+
 });
 
-router.post('/signup', passport.authenticate('local.signup', {
+router.post('/user/signup', passport.authenticate('local.signup', {
+
 	failureRedirect: '/user/signup',
-	failureFlash: true
-}), function(req, res){
+	failureFlash: true 
+
+}), (req, res)=>{
+
 	if(req.session.oldUrl){
-		var old = req.session.oldUrl;
+
+		let old = req.session.oldUrl;
 		req.session.oldUrl = null;
 		res.redirect(old);
 		
-
 	}else{
-		res.redirect('user/profile');
+
+		res.redirect('/');
+
 	}
 });
 
-router.get('/signin', function(req, res, next){
-	var messages = req.flash('error');
+router.get('/user/signin', (req, res, next)=>{
+
+	let messages = req.flash('error');
 	res.render('user/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length > 0});
+
 });
 
-router.post('/signin', passport.authenticate('local.signin',  {
-	failureRedirect: '/user/signin ',
+router.post('/user/signin', passport.authenticate('local.signin',  {
+
+	failureRedirect: '/user/signin',
 	failureFlash: true
-}), function(req, res){
+
+}), (req, res)=> {
+
 	if(req.session.oldUrl){
+
 		res.redirect(req.session.oldUrl);
 		req.session.oldUrl = null;
 
 	}else{
-		res.redirect('user/profile');
+
+		res.redirect('/');
+
 	}
 });
 
 
-
-module.exports = router;
-
 function  isLoggedIn(req,res,next) {
+
 	if(req.isAuthenticated()){
 		return next();
 	}
+
 	res.redirect('/');
-	// body...
+
 }
 function  notLoggedIn(req,res,next) {
+
 	if(!req.isAuthenticated()){
 		return next();
 	}
+
 	res.redirect('/');
-	// body...
+
 }
+
+export {router};

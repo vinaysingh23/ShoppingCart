@@ -1,28 +1,24 @@
-var express = require('express');
-var path = require('path');
-//var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var mongoose =require('mongoose');
-var session = require('express-session');
-var passport = require('passport');
-var flash = require('connect-flash');
-//var FormData = require('form-data');
-//var fs = require('fs');
-var MongoStore = require('connect-mongo')(session);  
+const express = require('express');
+const path = require('path');
+//const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const mongoose =require('mongoose');
+const session = require('express-session');
+const passport = require('passport');
+const flash = require('connect-flash');
+const MongoStore = require('connect-mongo')(session);  
+const expressValidator = require('express-validator');
+
+import {Product} from './models/product';
 
 
-//var User = require('./models/user');
-var Product = require('./models/product');
-var expressValidator = require('express-validator');
 
+import { router as index } from './routes/index';
+import { router as users } from './routes/users';
 
-//routers
-var index = require('./routes/index');
-var users = require('./routes/users');
-
-var app = express();
+const app = express();
 
 mongoose.connect('mongodb://localhost/shoppingCart'); 
 require('./config/passport');
@@ -37,13 +33,17 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
 app.use(session({
+
 	secret: 'mysupersecret', 
 	resave: false, 
 	saveUninitialized: false,
 	store: new MongoStore({mongooseConnection: mongoose.connection}),
 	cookie: { maxAge: 10 * 60 * 1000}
+
 }));
+
 
 
 app.use(flash());
@@ -53,7 +53,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(__dirname + '/public'));
 
 
-app.use(function(req, res, next){
+app.use((req, res, next)=> {
+
 	res.locals.errors = null;
 	res.locals.login = req.isAuthenticated();
 	res.locals.session = req.session;
@@ -64,80 +65,37 @@ app.use(function(req, res, next){
 
 //Expree validator
 app.use(expressValidator({
-	errorFormatter: function(param, msg, value) {
-		var namespace = param.split('.')
+
+	errorFormatter: (param, msg, value)=> {
+
+		let namespace = param.split('.')
 			, root    = namespace.shift()
 			, formParam = root;
 
 		while(namespace.length) {
+
 			formParam += '[' + namespace.shift() + ']';
+
 		}
 		return {
+
 			param : formParam,
 			msg   : msg,
 			value : value
+			
 		};
 	}
 }));
 
-app.use('/user', users);
-app.use('/', index);
-
-/*Product.find({}, function(err, product) {
-  		if (err) throw err;
-
-     	
-  		console.log(product);
-});
-*/
-
-app.get('/', function(req,res,next){
-
-	//console.log(req.body);
-	//console.log(req.query.title);
-
-	Product.find({}, function(err, products) {
-			if (err) throw err;
-
-			res.render('index', {
-				title: 'Shopping Cart',
-				products: products
-			});
-  
-			//console.log(products);
-		});
-
-	/*if(req.query.title){
-		//console.log(req.query.search);
-		var name = req.query.title;
-		Product.find({name: new RegExp( name, "i") }, function(err, products){
-
-			if(err)
-				throw err;
-
-			res.render('index', {
-				title: 'Shopping cart',
-				products: products
-			});
-			console.log(products);
-			res.send(products);
-
-		});
-
-	}else{
-
-		Product.find({}, function(err, products) {
-			if (err) throw err;
-
-			res.render('index', {
-				products: products
-			});
-  
-			//console.log(products);
-		});
-	}*/
-
-});
+//app.use('/user', users);
+//app.use('/', index);
+app.use(index);
+app.use(users);
 
 
-module.exports = app;
+
+
+
+app.listen(3000);
+
+

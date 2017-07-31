@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 
-var schema1 = new Schema({
+const schema1 = new Schema({
 	seller_id: {type: String},
 	name: {type: String},
 	description: {type: String},
@@ -12,6 +12,7 @@ var schema1 = new Schema({
 	imagePath: String
 });
 	
-var Product = mongoose.model('Product', schema1);
-module.exports = Product;
+let Product = mongoose.model('Product', schema1);
+
+export {Product};
 
