@@ -6,11 +6,14 @@ const csrf = require('csurf');
 import {Product} from '../models/product';
 import {Order} from '../models/orders';
 import {User} from '../models/user';
+import * as user from '../controller/user';
 
 const csrfProtection = csrf();
 router.use(csrfProtection);
 
-router.get('/user/profile', isLoggedIn, (req, res, next)=> {
+router.get('/user/profile', isLoggedIn, user.profile);
+
+/*router.get('/user/profile', isLoggedIn, (req, res, next)=> {
 
 	let user = req.user;
 	
@@ -47,7 +50,8 @@ router.get('/user/profile', isLoggedIn, (req, res, next)=> {
 	
 
 
-});
+});*/
+
 router.get('/user/logout', isLoggedIn, (req,res,next)=> {
 
 	req.logout();

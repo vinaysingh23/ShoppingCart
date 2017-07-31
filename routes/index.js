@@ -5,8 +5,8 @@ const multer = require('multer');
 
 import {Product} from '../models/product';
 import {Order} from '../models/orders';
-
-
+import * as product from '../controller/product';
+import * as shop from '../controller/shop';
 
 const storage = multer.diskStorage({
 	destination: (req, file, callback) => {
@@ -30,7 +30,9 @@ router.get('/items/product',isLoggedIn, (req, res, next)=> {
 	res.render('items/product');
 
 });
-router.post('/items/product', upload.single('imagePath'), (req, res, next)=> {
+
+router.post('/items/product', upload.single('imagePath'), product.addItem);
+/*router.post('/items/product', upload.single('imagePath'), (req, res, next)=> {
 
 	let path = req.file ? req.file.path.replace('public', '') : '';
 	console.log(req.file);
@@ -51,7 +53,7 @@ router.post('/items/product', upload.single('imagePath'), (req, res, next)=> {
 	console.log('Item created :', req.body.name);
 	res.redirect('/items/product');
   
-});
+});*/
 
 
 router.get('/add-to-cart/:id', (req, res, next)=> {
@@ -124,7 +126,14 @@ router.get('/items/details/:id', (req, res, next)=> {
 });
 
 
-router.get('/shop/mycart', (req, res, next)=> {
+router.get('/shop/mycart', shop.mycart);
+router.get('/shop/checkout', isLoggedIn, shop.checkout);
+router.post('/shop/checkout', isLoggedIn, shop.myOrder);
+
+router.get('/items/editProduct/:id', product.getEdit);
+router.post('/items/editProduct/:id', product.postEdit);
+router.get('/removeProduct/:id', product.remove);
+/*router.get('/shop/mycart', (req, res, next)=> {
 
 	if(!req.session.cart){
 		return res.render('shop/mycart', {products: null});
@@ -133,8 +142,8 @@ router.get('/shop/mycart', (req, res, next)=> {
 	res.render('shop/mycart', { products: cart.generateArr() || {}, totalPrice: cart.totalPrice});
 
 
-});
-router.get('/shop/checkout', isLoggedIn, (req, res, next)=> {
+});*/
+/*router.get('/shop/checkout', isLoggedIn, (req, res, next)=> {
 
 	if(!req.session.cart){
 		return res.render('/shop/mycart');
@@ -143,9 +152,10 @@ router.get('/shop/checkout', isLoggedIn, (req, res, next)=> {
 	res.render('shop/checkout', { products: cart.generateArr(), totalPrice: cart.totalPrice});
 
 
-});
+});*/
 
-router.post('/shop/checkout', isLoggedIn, (req,res,next)=> {
+
+/*router.post('/shop/checkout', isLoggedIn, (req,res,next)=> {
 
 	if(!req.session.cart){
 		return res.redirect('/mycart');
@@ -211,10 +221,10 @@ router.post('/shop/checkout', isLoggedIn, (req,res,next)=> {
 
 	res.redirect('/');
 
-});
+});*/
 
 
-router.get('/items/editProduct/:id', (req, res, next)=> {
+/*router.get('/items/editProduct/:id', (req, res, next)=> {
 
 	let productId = req.params.id;
 	console.log(productId);
@@ -244,7 +254,7 @@ router.post('/items/editProduct/:id', (req, res, next)=> {
     {"multi": true} //for multiple documents
   ) */   
 
-	Product.update(conditions, update, options, (err, result)=> {
+	/*Product.update(conditions, update, options, (err, result)=> {
  
 		if(err){
 			console.log(err);
@@ -256,8 +266,8 @@ router.post('/items/editProduct/:id', (req, res, next)=> {
 	});
   
 
-});
-
+});*/
+/*
 router.get('/removeProduct/:id', (req, res, next)=> {
 
 	let productId = req.params.id;
@@ -277,7 +287,7 @@ router.get('/removeProduct/:id', (req, res, next)=> {
 	});
   
   
-});
+});*/
 
 
 function  isLoggedIn(req,res,next) {
