@@ -1,15 +1,16 @@
 
-const Cart = require('../models/cart');
 import {User} from '../models/user';
 import {Product} from '../models/product';
 import {Order} from '../models/orders';
 
-export const addItem = (req, res) => {
+export const getProductPage = (req, res) => {
+	res.render('items/product');
+};
 
-	let path = req.file ? req.file.path.replace('public', '') : '';
-	console.log(req.file);
+export const addItemBySeller = (req, res) => {
+	const path = req.file ? req.file.path.replace('public', '') : '';
   
-	let newItem = new Product({
+	const newItem = new Product({
 		seller_id: req.user._id,
 		name: req.body.name,
 		description: req.body.description,
@@ -22,76 +23,47 @@ export const addItem = (req, res) => {
 		if (err)
 			return console.error(err);
 	});
-	console.log('Item created :', req.body.name);
 	res.redirect('/items/product');
-    //res.redirect('/');
-  }
+};
 
 
-export const getEdit = (req, res) => {
+export const searchProduct = (req, res) => {
+	Product.find({name: new RegExp( req.query.search, 'i') }, (err, products) => {
+		if(err)
+			throw err;
+	
+		res.render('index',{products, cartQty : req.session.cart ? req.session.cart.totalQty : 0});
+	});
+};
 
-	let productId = req.params.id;
-	console.log(productId);
+export const getAllProduct = (req, res) => {
+	Product.find({}, function(err, products){
+		if (err) throw err;
 
-	Product.find({_id: productId}, (err, product)=> {
+		res.render('index', {
+			title: 'Shopping Cart',
+			products: products,
+			cartQty : req.session.cart ? req.session.cart.totalQty : 0
+		});
+	});
+};
 
+export const productDetails = (req, res) => {
+	const productId = req.params.id;
+
+	Product.find({_id: productId}, (err, products) => {
 		if(err) {
 			return res.redirect('/');
 		}
-		console.log(product);
-    
-		res.render('items/editProduct', {product: product});
+		res.render('items/details', {products, cartQty : req.session.cart ? req.session.cart.totalQty : 0});
 	});
+};
 
 
-  }
 
 
-export const postEdit = (req, res) => {
 
-	let productId = req.body.id;
-	let conditions = {_id: productId}
-		, update = {$inc: {qty: req.body.qty}, $set: {price:req.body.price}}
-		, options = {multi: true};
 
-	/*Product.update(
-    {"users.name": "johnk"}, //query, you can also query for email
-    {$set: {"users.$.name": "JohnKirster"}},
-    {"multi": true} //for multiple documents
-  ) */   
-
-	Product.update(conditions, update, options, (err, result)=> {
- 
-		if(err){
-			console.log(err);
-		}else{
-			console.log('success'); 
-			res.redirect('/user/profile');   
-		}
-
-	});
-  
-    //res.redirect('/');
-  }
-
-export const remove = (req, res) => {
-
-	let productId = req.params.id;
-	Product.findOneAndRemove({ _id: productId }, (err, product)=> {
-
-		console.log('success!!!');
-
-	});
-
-	let user = req.user;
-	let user_id = user.id;
-
-	Product.find({seller_id: user_id}, (req, products)=>{
-		//console.log(products);
-		res.render('user/profile', {products: products , type: 'seller' ,userDetails: user});
-
-	});
-  }
 
 
  

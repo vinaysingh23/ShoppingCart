@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const Schema1 = new Schema({
@@ -8,8 +8,7 @@ const Schema1 = new Schema({
 	name: {type: String},
 	cardName:String,
 	cardNumber: String,
-	phoneNumber: String
-	
+	phoneNumber: String	
 
 });
 

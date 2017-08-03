@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<h2>Admin Area<h2>
+<div align="center">
+	<div class="col">
+	<hr>
+	<%users.forEach(function(user){ %>
+	<% if(user.type === 'user') { %>
+		<ul><%=user.name%>   as <%=user.type%></ul>
+		<a href='admin/userDetails/<%=user._id %>' >Details</a> 
+		<hr> 
+	<%}%>	
+		
+	<% }); %>
+
+	<%users.forEach(function(user){ %>
+	<% if(user.type === 'seller' ) { %>
+		<ul><%=user.name%>   as <%=user.type%></ul>
+		<a href='admin/sellerDetails/<%=user._id %>' >Details</a>  
+		<hr>
+	<%}%>	
+
+	<% }); %>
+	</div>
+</div>
+
+</html>

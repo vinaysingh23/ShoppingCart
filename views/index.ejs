@@ -23,8 +23,8 @@
              
      <ul id="menu">
          <li><a href="/">Home</a></li>
-         <li><a href="shop/mycart">mycart</a></li>
-        <% if(login ){ %>
+         <li><a href="shop/mycart">mycart(<%=cartQty%>)</a></li>
+        <% if(login){ %>
            <li><a href="user/profile">My Account</a></li>
            <li><a href="user/logout">Logout</a></li>
          <% }else{ %>
@@ -35,7 +35,7 @@
         <% } %>
              
         <div id="form_search">
-           <form class="searchProduct"  method="GET">
+           <form action="/searchProduct"  method="GET">
                <input type="text" id="title" name="search" placeholder="search" >
             
                <input type="submit" id="submit" value="search by name">
@@ -43,12 +43,14 @@
            </form>
           
           
-          <script src="jquery-3.2.1.min.js"></script>
+          <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
           
           <script >
-          $(function(){       
-                $('#submit').click(function(e){
+                
+          $(function(){    
+ 
+                $('#submit1').click(function(e){
                     e.preventDefault();
                     console.log('select_link clicked');
                     
@@ -104,9 +106,12 @@
           var div = document.getElementById('product');
         
           div.innerHTML = products;
-        
         }
-
+        
+       function disablebutton() {
+         document.getElementById("<>").disabled = true;
+         
+        }
         </script>
         </div>
          
@@ -130,7 +135,7 @@
               <%if(products.qty > 0) {%>
               <p><b>Quantity Available:<%=products.qty%></b></p> 
               <a href='/items/details/<%=products._id %>' style='float:left';>Details</a>    
-              <a href='/add-to-cart/<%=products._id %>'><button style='float:right;'>Add to cart</button></a>
+              <a href='/cart/add-to-cart/<%=products._id %>'  ><button  onclick="this.disabled=true;" id="<%=products._id %>" style='float:right;'>Add to cart</button></a>
               <%} else {%>
               <ul>Currently Not available!!<br>Coming soon...</ul>
               <%}%>

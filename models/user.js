@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
-const bcrypt = require('bcrypt-nodejs');
+import bcrypt from 'bcrypt-nodejs';
 
 const userSchema = new Schema({
 	name: {type: String },
@@ -9,7 +9,6 @@ const userSchema = new Schema({
 	password: {type: String },
 	cart: {type: Object}
 	
-
 });
 
 /*userSchema.methods.encryptPassword = (password)=> {

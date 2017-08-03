@@ -16,7 +16,7 @@
               <p><b>Price:<%=products.price%> Rs</b></p> 
               <%if(products.qty > 0) {%>
               <p><b>Quantity Available:<%=products.qty%></b></p> 
-              <a href='/productss/details/<%=products._id %>' style='float:left';>Details</a>    
+              <a href='/products/details/<%=products._id %>' style='float:left';>Details</a>    
               <a href='/add-to-cart/<%=products._id %>'><button style='float:right;'>Add to cart</button></a>
               <%} else {%>
               <ul>Currently Not available!!<br>Coming soon...</ul>

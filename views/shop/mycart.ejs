@@ -11,12 +11,14 @@
             <b style= 'padding-left: 20px'>Name:<%=item.item.name%> </b>               
             <b style= 'padding-left: 20px'>Quantity:<%=item.qty%> </b>
             <b style= 'padding-left: 20px'>Price:<%=item.price%> </b>  
-            <a href="/reduceCart/<%=item.item._id%>" style= 'padding-left: 20px'><button>Reduce by 1</button></a> 
-            <a href="/removeFromCart/<%=item.item._id%>" style= 'padding-left: 20px'><button>Remove from Cart </button></a> 
-            <form action="/add_product_by_qty", method="GET">
-              Add Quantity:<input type="Number" name="qty" >
-              <input type="hidden" name="id" value="<%=item.item._id%>">
-              <input type="submit" name="submit">
+            <a href="/cart/reduceCart/<%=item.item._id%>" style= 'padding-left: 20px'><button>Reduce by 1</button></a> 
+            <a href="/cart/removeFromCart/<%=item.item._id%>" style= 'padding-left: 20px'><button>Remove from Cart </button></a> 
+            <form action="/cart/add_product_by_qty", method="GET">
+        
+            Add Quantity:<input type="Number" name="qty" max="<%=item.item.qty - item.qty%>">  
+            <input type="hidden" name="id" value="<%=item.item._id%>">
+            <input type="submit" name="submit">
+            <b style= 'padding-left: 20px'>Available:<%=item.item.qty%> </b>  
             </form>
           
 

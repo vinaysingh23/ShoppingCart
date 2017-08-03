@@ -1,28 +1,31 @@
-const express = require('express');
-const path = require('path');
-//const favicon = require('serve-favicon');
-const logger = require('morgan');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const mongoose =require('mongoose');
-const session = require('express-session');
-const passport = require('passport');
-const flash = require('connect-flash');
-const MongoStore = require('connect-mongo')(session);  
-const expressValidator = require('express-validator');
+import express from 'express';
+import path from 'path';
+import favicon from 'serve-favicon';
+import logger from 'morgan';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+import session from 'express-session';
+import passport from 'passport';
+import flash from 'connect-flash';
 
-import {Product} from './models/product';
+const mongoStore = require('connect-mongo')(session);
 
+import expressValidator from 'express-validator';
+import passportConfig from './config/passport';
+import dbConfig from './config/dbConfig';
 
-
-import { router as index } from './routes/index';
+// Routers
+import { router as home } from './routes/home';
 import { router as users } from './routes/users';
+import { router as admin } from './routes/admin';
+import { router as seller } from './routes/seller';
+import { router as items } from './routes/items';
+import { router as shop } from './routes/shop';
+import { router as cart } from './routes/cart';
 
 const app = express();
 
-mongoose.connect('mongodb://localhost/shoppingCart'); 
-require('./config/passport');
- 
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -32,70 +35,43 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(expressValidator());
 app.use(cookieParser());
 
+
 app.use(session({
-
-	secret: 'mysupersecret', 
-	resave: false, 
+	secret: 'mysupersecret',
+	resave: false,
 	saveUninitialized: false,
-	store: new MongoStore({mongooseConnection: mongoose.connection}),
-	cookie: { maxAge: 10 * 60 * 1000}
-
+	store: new mongoStore({ mongooseConnection: mongoose.connection }),
+	cookie: { maxAge: 80 * 60 * 1000 },
 }));
-
 
 
 app.use(flash());
 app.use(passport.initialize());
-app.use(passport.session()); 
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(`${__dirname}/public`));
 
 
-app.use((req, res, next)=> {
-
+// global variables
+app.use((req, res, next) => {
 	res.locals.errors = null;
 	res.locals.login = req.isAuthenticated();
 	res.locals.session = req.session;
-	res.locals.user_type = null;
 	next();
-
 });
 
-//Expree validator
-app.use(expressValidator({
 
-	errorFormatter: (param, msg, value)=> {
-
-		let namespace = param.split('.')
-			, root    = namespace.shift()
-			, formParam = root;
-
-		while(namespace.length) {
-
-			formParam += '[' + namespace.shift() + ']';
-
-		}
-		return {
-
-			param : formParam,
-			msg   : msg,
-			value : value
-			
-		};
-	}
-}));
-
-//app.use('/user', users);
-//app.use('/', index);
-app.use(index);
+app.use(home);
+app.use(admin);
+app.use(seller);
+app.use(items);
+app.use(shop);
+app.use(cart);
 app.use(users);
 
 
-
-
-
 app.listen(3000);
-
 
